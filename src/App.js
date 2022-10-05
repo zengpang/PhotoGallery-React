@@ -1,34 +1,46 @@
 import Logo from './logo.svg';
 import './App.css';
-import Home from './pages/Home';
-import History from './pages/History';
-import About from './pages/About';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Loading from './components/Loading';
 import React, { Suspense, lazy } from 'react';
 import {
   Routes,
   Link,
-  Route
-} from 'react-router-dom'
+  Route,
+  Navigate
+} from 'react-router-dom';
+
+
+
+const Home=lazy(()=>import('./pages/Home'));
+const History=lazy(()=>import('./pages/History'));
+const About=lazy(()=>import('./pages/About'));
+const Login=lazy(()=>import('./pages/Login'));
+const Register=lazy(()=>import('./pages/Register'));
 function App() {
   return (
     <div className="App">
-      <img src={Logo}></img>
-      <nav>
-        <Link to="/">首页</Link>
-        <Link to="/history">上传历史</Link>
-        <Link to="/about">关于我</Link>
-      </nav>
+  
+   
       <Header>
-
+         
       </Header>
-      <Routes>
-        <Route path="/" exact="true" element={<Home />}></Route>
-        <Route path="/history" element={<History />}></Route>
-        <Route path="/about" element={<About />}></Route>
-      </Routes>
-      <Footer></Footer>
+      <main>
+        <Suspense fallback={<Loading/>}>
+        <Routes>
+          <Route path="/home"  element={<Home />}/>
+          <Route path="/history" element={<History />}/>
+          <Route path="/about" element={<About />}/>
+          <Route path="/login" element={<Login />}/>
+          <Route path="/register" element={<Register />}/>
+          <Route path="/" element={<Navigate to="/home"/>}/>
+        </Routes>
+        </Suspense>
+      </main>
+      <Footer>
+      </Footer>
     </div>
   );
 }
