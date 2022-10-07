@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Form, Input,Button,Checkbox} from 'antd';
 import styled from 'styled-components';
 import {useStores} from '../stores';
-import {userHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const Wraper=styled.div`
    max-width:600px;
@@ -34,7 +34,7 @@ const tailLayout={
 
 const Component=observer(()=>{
     const {AuthStore}=useStores();
-    const history=userHistory();
+    const history=useNavigate();
     const onFinish=values=>{
        console.log('Success:',values);
        AuthStore.setUsername(values.username);
@@ -42,7 +42,7 @@ const Component=observer(()=>{
        AuthStore.register()
        .then(()=>{
          console.log('注册成功,跳转到首页');
-         history.push('/');
+         history('/');
        }).catch(()=>{
         console.log('登录失败,什么都不做');
        });
@@ -51,7 +51,11 @@ const Component=observer(()=>{
        console.log('Failed:',errorInfo);
     };
     const validateUsername=(rule,value)=>{
-       if(/\w/.test(value)) return Promise.reject('只能是字母数字下划线');
+       if(/\W/.test(value)) 
+       {
+        
+        return Promise.reject('只能是字母数字下划线');
+      };
        if(value.length<4||value.length>10) return Promise.reject('长度为4~10个字符');
        return Promise.resolve();  
     };
@@ -64,8 +68,67 @@ const Component=observer(()=>{
     return (
         <Wraper>
         <Title>注册</Title>
-        
-        <h1>Register:{AuthStore.values.username}</h1>
+        <Form
+          {...layout}
+          name="basic"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+            label="用户名"
+            name="username"
+            rules={[
+              {
+                required:true,
+                message:'输入用户名',
+              },
+              {
+                validator:validateUsername
+              }
+            ]}
+          >
+          <Input/>
+          </Form.Item>
+          <Form.Item
+          label="密码"
+          name="password"
+          rules={[
+            {
+                required: true,
+                message: '输入密码',
+            },
+            {
+               min:4,
+               message:"最少4个字符"     
+            },
+            {
+                max:10,
+                message:'最大10个字符'
+            }
+          ]}
+          >
+          <Input.Password/>
+          </Form.Item>
+          <Form.Item
+            label="确认密码"
+            name="confirmPassword"
+            rules={[
+              {
+                required:true,
+                message:'再次确认密码',
+              },
+              validateConfirm
+            ]}
+          >
+          <Input.Password/>
+          </Form.Item>
+          <Form.Item{...tailLayout}>
+            <Button type='primary' htmlType='submit'>
+             提交
+            </Button>
+          </Form.Item>
+        </Form>
+     
         </Wraper>
     );
 })

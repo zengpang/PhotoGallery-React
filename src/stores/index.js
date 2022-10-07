@@ -1,5 +1,5 @@
 import React,{createContext,useContext} from "react";
-import {AuthStore} from './auth';
+import AuthStore from './auth';
 import UserStore from './user';
 
 const context=createContext({
@@ -8,6 +8,7 @@ const context=createContext({
 });
 window.stores={
     AuthStore,
-    Use
-}
+    UserStore
+};
+
 export const useStores=()=>useContext(context);

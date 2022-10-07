@@ -2,7 +2,7 @@ import AV,{Query,User} from 'leancloud-storage';
 AV.init({
     appId: "tmQb7jlJhSjhfdUqbXq77PUD-gzGzoHsz",
     appKey: "s92ueTtV79VLX7Lk3GQQ6FvE",
-    serverURL: "https://please-replace-with-your-customized.domain.com"
+    serverURL: "https://tmqb7jlj.lc-cn-n1-shared.com"
 });
 const Auth={
     register(username,password)

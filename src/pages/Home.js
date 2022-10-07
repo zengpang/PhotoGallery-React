@@ -8,7 +8,7 @@ const Home=observer(()=>{
     <>
      {
       UserStore.currentUser?<>
-        Hello {UserStore.currentUser.attribures.username}
+        Hello {UserStore.currentUser.attributes.username}
       </>:<>
        用户未登录
       </>
