@@ -36,7 +36,7 @@ const tailLayout={
 const Component=observer(()=>{
     const {AuthStore} =useStores();
     const history=useNavigate();
-    const inputRef=useRef();
+
     const onFinish=values=>{
         console.log('Success:',values);
         AuthStore.setUsername(values.username);
