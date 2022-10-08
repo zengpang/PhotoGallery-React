@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Form, Input,Button,Checkbox} from 'antd';
 import styled from 'styled-components';
 import {useStores} from '../stores';
-
+import {useNavigate} from 'react-router-dom';
 
 
 const Wraper=styled.div`
@@ -35,6 +35,7 @@ const tailLayout={
 };
 const Component=observer(()=>{
     const {AuthStore} =useStores();
+    const history=useNavigate();
     const inputRef=useRef();
     const onFinish=values=>{
         console.log('Success:',values);
@@ -43,6 +44,7 @@ const Component=observer(()=>{
         AuthStore.login()
         .then(()=>{
             console.log('登录成功,跳转到首页');
+            history(`/`);
         })
     };
     const onFinishFailed=errorInfo=>{
